@@ -20,3 +20,11 @@ button {
     color: white;
     background-color:black;
 }
+
+.X {
+    background-color: green;
+}
+
+.O {
+    background-color: yellow;
+}
