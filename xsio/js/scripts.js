@@ -16,15 +16,12 @@ var clickHandler = (event) => {
     if (target.html()) {
         return;
     }
-    moves++;
-    target.addClass(player);
-    target.html(player);
-    winner = checkWinner();
-    if(winner) {
-        winnerDiv.html("Winner: "+winner);
-        resetDiv.show();
+    
+    if(makeMove(target)) {
+        return;
     }
-    player = player === "X" ? "O" : "X";
+
+    botMove();
 }
 
 
@@ -47,7 +44,6 @@ var checkWinner = () => {
             return $(this).html();
         }
     );
-    console.log(values);
 
     if (values[0] === values[4] && values[4] === values[8] && values[0]) return values[0];
     if (values[2] === values[4] && values[4] === values[6] && values[2]) return values[2];
@@ -60,6 +56,33 @@ var checkWinner = () => {
 
     if (moves === 9) return "DRAW";
 
+}
+
+var botMove = () => {
+    var move = Math.floor(Math.random()*9);
+    var botButton = $(buttons[move]);
+    
+    while(botButton.html()) {
+        move = Math.floor(Math.random()*9);
+        botButton = $(buttons[move]);
+    }
+
+    if(makeMove(botButton)) {
+        return;
+    }
+}
+
+var makeMove = (button) => {
+    moves++;
+    button.addClass(player);
+    button.html(player);
+    winner = checkWinner();
+    if(winner) {
+        winnerDiv.html("Winner: "+winner);
+        resetDiv.show();
+        return true;
+    }
+    player = player === "X" ? "O" : "X";
 }
 
 resetDiv.click(resetGame);
