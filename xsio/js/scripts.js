@@ -1,12 +1,15 @@
 var buttons = $('button');
 var resetDiv = $('#reset');
 var winnerDiv = $('#winner');
+var newGameDiv = $('#new-game');
+var playBotCheckbox = $('#play-bot');
 
 var player = "X";
-var winner;
-var moves = 0;
+var winner = "DRAW";
+var moves;
+var playBot = false;
 
-resetDiv.hide();
+
 
 var clickHandler = (event) => {
     if (winner) {
@@ -21,13 +24,16 @@ var clickHandler = (event) => {
         return;
     }
 
-    botMove();
+    if(playBot) {
+        botMove();
+    }
 }
 
 
 var resetGame = () => {
+    playBot = playBotCheckbox.is(':checked');
     player="X";
-    resetDiv.hide();
+    newGameDiv.hide();
     winnerDiv.html("");
     winner = null;
     moves = 0;
@@ -79,7 +85,7 @@ var makeMove = (button) => {
     winner = checkWinner();
     if(winner) {
         winnerDiv.html("Winner: "+winner);
-        resetDiv.show();
+        newGameDiv.show();
         return true;
     }
     player = player === "X" ? "O" : "X";
